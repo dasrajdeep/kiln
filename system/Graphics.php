@@ -129,6 +129,24 @@ class Graphics {
 			return PATH_CACHE.$filename;
 		}
 	}
+
+	public static function deleteGraphics($graphicsID) {
+		
+		$query = "SELECT filename FROM kiln_cache WHERE type=:type AND ref=:ref";
+		
+		$row = R::getAssocRow($query, array(':type'=>CacheManager::CONTENT_TYPE_GRAPHICS, ':ref'=>$graphicsID));
+		
+		if(!count($row)) return FALSE;
+		
+		$row = $row[0];
+		
+		@unlink(PATH_CACHE.$row['filename']);
+		
+		R::exec("DELETE FROM kiln_cache WHERE filename=:filename", array(':filename'=>$row['filename']));
+		R::exec("DELETE FROM kiln_graphics WHERE id=:id", array(':id'=>$graphicsID));
+		
+		return TRUE;
+	}
 	
 	private static function cacheGraphics($graphicsID) {
 			

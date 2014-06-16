@@ -1,7 +1,10 @@
 data/*
 cache/*
-vendor/
+!vendor/
 lib/
+vendor/*
+!vendor/redbeanphp-3.5.4/
+!vendor/swiftmailer/
 
 *.log
 *.lock
