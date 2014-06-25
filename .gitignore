@@ -3,8 +3,7 @@ cache/*
 !vendor/
 lib/
 vendor/*
-!vendor/redbeanphp-3.5.4/
-!vendor/swiftmailer/
+!vendor/_required/
 app/controllers/
 app/views/
 app/modules/

@@ -6,10 +6,7 @@
 	"dependencies": {
 		"jquery": "1.x",
 		"bootstrap": ">3.0.0",
-		"fontawesome": "*",
-		"jquery-form": "*",
-		"bootstrap3-typeahead": "*",
-		"summernote": "*"
+		"jquery-form": "*"
 	},
 	"private": true
 }

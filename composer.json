@@ -1,6 +1,4 @@
 {
 	"require": {
-		"swiftmailer/swiftmailer": "5.2.*@dev",
-		"ezyang/htmlpurifier": "dev-master"
 	}
 }

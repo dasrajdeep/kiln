@@ -59,9 +59,17 @@
 		
 		R::setup(sprintf('mysql:host=%s;dbname=%s',$db_host,$db_name),$db_user,$db_pass);
 	}
+
+	function load_swiftmailer($class_name) {
+		
+		if(strpos($class_name, 'Swift') != 0) return;
+		
+		require_once('vendor/_required/swift-5.1.0/lib/swift_required.php');
+	}
 	
 	spl_autoload_register('load_module');
 	spl_autoload_register('load_redbean');
+	spl_autoload_register('load_swiftmailer');
 	
 	//require_once('vendor/autoload.php');
 	

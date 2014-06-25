@@ -36,7 +36,7 @@ function load_redbean($class_name) {
 	
 	if($class_name !== 'R') return;
 	
-	require_once('vendor/redbeanphp-3.5.4/rb.php');
+	require_once('vendor/_required/redbeanphp-3.5.4/rb.php');
 	
 	$db_host=Registry::lookupConfig(Registry::CONFIG_TYPE_DATABASE, 'host');
 	$db_user=Registry::lookupConfig(Registry::CONFIG_TYPE_DATABASE, 'username');
@@ -44,6 +44,13 @@ function load_redbean($class_name) {
 	$db_name=Registry::lookupConfig(Registry::CONFIG_TYPE_DATABASE, 'name');
 	
 	R::setup(sprintf('mysql:host=%s;dbname=%s',$db_host,$db_name),$db_user,$db_pass);
+}
+
+function load_swiftmailer($class_name) {
+	
+	if(strpos($class_name, 'Swift') != 0) return;
+	
+	require_once('vendor/_required/swift-5.1.0/lib/swift_required.php');
 }
 
 ?>

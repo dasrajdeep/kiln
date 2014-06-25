@@ -16,6 +16,7 @@
 	spl_autoload_register('load_module');
 	spl_autoload_register('load_controller');
 	spl_autoload_register('load_redbean');
+	spl_autoload_register('load_swiftmailer');
 	
 	register_shutdown_function('shutdown_system');
 
