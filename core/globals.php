@@ -11,7 +11,7 @@
 	define('DS',DIRECTORY_SEPARATOR);
 	
 	define('BASE_DIR',getcwd().'/');
-	define('BASE_URI',$env_base_uri);	
+	define('BASE_URI',substr(getcwd(), strlen($_SERVER['DOCUMENT_ROOT'])).'/');	
 	
 	define('PATH_CACHE','cache/');
 	define('PATH_SYSTEM','system/');

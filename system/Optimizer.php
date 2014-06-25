@@ -1,6 +1,5 @@
 <?php
 
-// Add custom script path
 class Optimizer {
 	
 	public static function packScripts($list) {
@@ -154,12 +153,10 @@ class Optimizer {
 		$ports = Registry::listPorts();
 		
 		foreach($ports as $port) {
-			$base_uri = $GLOBALS['env_base_uri'];
 			
-			$content = sprintf('<?php
+			$content = '<?php
 				define("SYSTEM_STARTED", TRUE);
-				$env_base_uri = "%s"; 
-			?>', $base_uri);
+			?>';
 			
 			$content .= file_get_contents(BASE_DIR.'system.inc');
 			$content .= file_get_contents(BASE_DIR.'index.inc');

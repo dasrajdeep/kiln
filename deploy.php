@@ -26,9 +26,10 @@ if(count($argv) < 2) {
 	if($command === 'production') {
 		if(file_exists('production')) {
 			echo shell_exec("rm -rf production");
-			mkdir('production');
-			echo shell_exec("chmod -R 777 production");
 		} 
+		
+		mkdir('production');
+		echo shell_exec("chmod -R 777 production");
 		 
 		Optimizer::optimize();
 		
