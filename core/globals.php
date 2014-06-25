@@ -10,8 +10,6 @@
 	
 	define('DS',DIRECTORY_SEPARATOR);
 	
-	define('PRODUCTION',$env_production_mode);
-	
 	define('BASE_DIR',getcwd().'/');
 	define('BASE_URI',$env_base_uri);	
 	

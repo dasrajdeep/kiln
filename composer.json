@@ -1,6 +1,5 @@
 {
 	"require": {
-		"monolog/monolog": "1.10.*@dev",
 		"swiftmailer/swiftmailer": "5.2.*@dev",
 		"ezyang/htmlpurifier": "dev-master"
 	}

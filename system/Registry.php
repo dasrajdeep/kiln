@@ -18,21 +18,15 @@ class Registry {
 	
 	/**
 	 * Contains registry entries of the form:
-	 * <method_name>=<controller_class_name>
+	 * <type, key>=<value>
 	 */
-	private static $rpc_registry=array();
-	
-	/**
-	 * Contains registry entries of the form:
-	 * <view_name>=<controller_class_name>
-	 */
-	private static $view_registry=array();
+	private static $app_config=array();
 	
 	/**
 	 * Contains registry entries of the form:
 	 * <key>=<value>
 	 */
-	private static $app_config=array();
+	private static $custom_config = array();
 	
 	public static function init() {
 		
@@ -42,8 +36,6 @@ class Registry {
 		
 		$config_app = parse_ini_file(BASE_DIR.'app/config/app.ini', TRUE);
 		$config_ports = parse_ini_file(BASE_DIR.'app/config/ports.ini', TRUE);
-		$config_rpc = parse_ini_file(BASE_DIR.'app/config/rpc.ini', FALSE);
-		$config_views = parse_ini_file(BASE_DIR.'app/config/views.ini', FALSE);
 		$config_custom = parse_ini_file(BASE_DIR.'app/config/custom.ini', FALSE);
 		
 		self::$port_registry = $config_ports;
@@ -60,11 +52,8 @@ class Registry {
 			else self::$port_registry['PRIVATE'][$key] = null;
 		}
 		
-		self::$rpc_registry = $config_rpc;
-		
-		self::$view_registry = $config_views;
-		
 		self::$app_config = $config_app;
+		self::$custom_config = $config_custom;
 	}
 	
 	public static function portExists($portName) {
@@ -82,21 +71,20 @@ class Registry {
 		else return null;
 	}
 	
-	public static function lookupRPC($rpcName) {
-	
-		if(isset(self::$rpc_registry[$rpcName])) return self::$rpc_registry[$rpcName];
-		else return null;
-	}
-	
-	public static function lookupView($viewName) {
+	public static function listPorts() {
 		
-		if(isset(self::$view_registry[$viewName])) return self::$view_registry[$viewName];
-		else return null;
+		return array_merge(array_keys(self::$port_registry['PUBLIC']), array_keys(self::$port_registry['PRIVATE']));
 	}
 	
 	public static function lookupConfig($type, $configKey) {
 		
 		if(isset(self::$app_config[$type][$configKey])) return self::$app_config[$type][$configKey];
+		else return null;
+	}
+	
+	public static function lookupCustomConfig($key) {
+		
+		if(array_key_exists($key, self::$custom_config)) return self::$custom_config[$key];
 		else return null;
 	}
 	

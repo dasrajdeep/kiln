@@ -47,7 +47,7 @@ class ContentManager {
 		
 		if($link && file_exists(BASE_DIR.$link)) {
 			CacheManager::moveToCache($link);
-			return BASE_URI.self::$cache_location.$resourceName;
+			return self::$cache_location.$resourceName;
 		} else if($link && !file_exists(BASE_DIR.$link)) {
 			return '';
 		}

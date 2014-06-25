@@ -5,6 +5,12 @@ lib/
 vendor/*
 !vendor/redbeanphp-3.5.4/
 !vendor/swiftmailer/
+app/controllers/
+app/views/
+app/modules/
+app/scripts/
+app/styles/
+app/fonts/
 
 *.log
 *.lock

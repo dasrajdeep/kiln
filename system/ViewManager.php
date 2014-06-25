@@ -14,7 +14,12 @@ class ViewManager {
 		'otf'=>PATH_FONTS
 	);
 	
-	public static function renderView($viewName,$view_vars=null) {
+	public static function renderView($viewName, $var=null) {
+		
+		if(PRODUCTION) {
+			require_once('production/'.$viewName.'.inc');
+			return;
+		}
 		
 		$GLOBALS['view_type']='partial';
 		
@@ -30,12 +35,31 @@ class ViewManager {
 			
 			if($GLOBALS['view_type']==='complete') require_once('core/container.php');
 			else echo $html_body;
-			
+			//Optimizer::refactorFlows();
 			return true;
 		} else return false;
 	}
 	
 	public static function get_tags($name) {
+		
+		$paths = self::get_paths($name);
+		
+		$tags = array();
+		
+		foreach($paths as $path) {
+			$ext = pathinfo($path, PATHINFO_EXTENSION);
+			if(!$ext) continue;
+			
+			if($ext === 'js') array_push($tags, 
+				sprintf('<script type="text/javascript" src="%s"></script>', BASE_URI.$path));
+			else if($ext === 'css') array_push($tags, 
+				sprintf('<link rel="stylesheet" href="%s" />', BASE_URI.$path));
+		}
+		
+		return $tags;
+	}
+	
+	public static function get_paths($name) {
 		
 		global $libraries;
 		
@@ -51,19 +75,7 @@ class ViewManager {
 			$paths = array($link);
 		}
 		
-		$tags = array();
-		
-		foreach($paths as $path) {
-			$ext = pathinfo($path, PATHINFO_EXTENSION);
-			if(!$ext) continue;
-			
-			if($ext === 'js') array_push($tags, 
-				sprintf('<script type="text/javascript" src="%s"></script>',$path));
-			else if($ext === 'css') array_push($tags, 
-				sprintf('<link rel="stylesheet" href="%s" />',$path));
-		}
-		
-		return $tags;
+		return $paths;
 	}
 	
 	public static function add_dependancies() {
@@ -73,6 +85,7 @@ class ViewManager {
 		$view_config = $GLOBALS['view_config'];
 		
 		foreach($view_config['dependancies'] as $dep) {
+			
 			$tags = self::get_tags($dep);
 			
 			foreach($tags as $tag) echo $tag."\n";
@@ -85,19 +98,7 @@ class ViewManager {
 		
 		foreach($GLOBALS['view_config']['custom_head'] as $custom_head) {
 			
-			if(!isset($GLOBALS['view_registry'])) {
-				$reg=parse_ini_file(PATH_VIEWS.'.views',true);
-				$GLOBALS['view_registry']=$reg['view_registry'];
-			}
-			
-			if(!isset($GLOBALS['view_registry'][$custom_head])) return false;
-			
-			$path=$GLOBALS['view_registry'][$custom_head];
-			
-			if(file_exists($path)) {
-				require_once($path);
-				return true;
-			} else return false;
+			echo $custom_head."\n";
 		}
 	}
 	

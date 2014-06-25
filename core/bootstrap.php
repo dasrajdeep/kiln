@@ -19,8 +19,8 @@
 	
 	register_shutdown_function('shutdown_system');
 
-	if(!PRODUCTION) build_view_registry();
-	if(!PRODUCTION) build_helper_registry();
-	if(!PRODUCTION) build_library_registry();
+	build_view_registry();
+	build_helper_registry();
+	build_library_registry();
 	
 ?>

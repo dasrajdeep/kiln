@@ -5,33 +5,43 @@
 	function resolve($action,$uriParams) {
 		
 		if($action) {
-			if($action==='view') {
-				if(!isset($uriParams[0])) die('view name not specified');
-				$dispatcher=new Dispatcher();
-				if($uriParams[0]==='default') $uriParams[0]=Registry::lookupConfig('default_view');
-				$result = call_user_func_array(array($dispatcher,'handleViewRequest'),$uriParams);
-				if($result === FALSE) {
-					header('Location: '.BASE_URI);
-					echo "unauthorized";
-				}
-			} else if($action==='rpc') {
-				$dispatcher=new Dispatcher();
-				$result = call_user_func_array(array($dispatcher,'invokeRPC'),$uriParams);
-				if($result === FALSE) {
-					if($result === FALSE) header('Location: '.BASE_URI);
-					echo json_encode("unauthorized");
-				} else echo json_encode($result);
-			} else if(Registry::portExists($action)) {
-				$dispatcher=new Dispatcher();
-				$params=array($action);
-				array_push($params,$uriParams);
-				$result = call_user_func_array(array($dispatcher,'handlePortRequest'),$params);
-				if($result === FALSE) header('Location: '.BASE_URI);
-			} else {
-				die('Your request cannot be resolved.');
+			
+			$portConfig = Registry::lookupPort($action);
+			
+			if(!$portConfig) {
+				if($action === 'default') die("Your app does not have a default port configuration. Please configure the default port.");
+				else die("Your request cannot be resolved.");
 			}
+			
+			if($portConfig[2] === Registry::PORT_TYPE_PRIVATE && !Session::isRunning()) {
+				header('Location: '.BASE_URI);
+				return;
+			}
+			
+			$controllerName=$portConfig[0].'Controller';
+			$methodName=$portConfig[1];
+			
+			$controller=new $controllerName();
+			
+			call_method($controller, $methodName, $uriParams);
 		} else die('Your request cannot be resolved.');
+	}
+	
+	function call_method($object, $method_name, $args) {
 		
+		$num_args = count($args);
+		
+		if($num_args == 0) {
+			return $object->{$method_name}();
+		} else if($num_args == 1) {
+			return $object->{$method_name}($args[0]);
+		} else if($num_args == 2) {
+			return $object->{$method_name}($args[0], $args[1]);
+		} else if($num_args == 3) {
+			return $object->{$method_name}($args[0], $args[1], $args[2]);
+		} else {
+			return call_user_func_array(array($object, $method_name), $args);
+		}
 	}
 
 ?>

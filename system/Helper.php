@@ -22,12 +22,12 @@ class Helper {
 	
 	public static function getContentLink($contentName) {
 		
-		$rel_link=ContentManager::getResourceLink($contentName);
+		$rel_link = ContentManager::getResourceLink($contentName);
 		
-		return $rel_link;
+		return BASE_URI.$rel_link;
 	}
 
-	public static function addViewComponent($componentName,$view_vars=null) {
+	public static function addViewComponent($componentName, $var=null) {
 		
 		if(!isset($GLOBALS['view_registry'])) {
 			$reg=parse_ini_file(PATH_VIEWS.'.views',true);
@@ -53,13 +53,13 @@ class Helper {
 		foreach($dependancies as $dep) array_push($GLOBALS['view_config']['dependancies'], $dep);
 	}
 	
-	public static function addCustomHeadContent($contentFile) {
+	public static function addCustomHeadContent($content) {
 		
 		if(!isset($GLOBALS['view_config'])) $GLOBALS['view_config']=array('dependancies'=>array());
 		
 		if(!isset($GLOBALS['view_config']['custom_head'])) $GLOBALS['view_config']['custom_head'] = array();
 		
-		array_push($GLOBALS['view_config']['custom_head'], $contentFile);
+		array_push($GLOBALS['view_config']['custom_head'], $content);
 	}
 	
 	public static function setCompleteView()  {
