@@ -1,9 +1,8 @@
 data/*
 cache/*
-!vendor/
-lib/
-vendor/*
-!vendor/_required/
+#!vendor/
+#vendor/*
+#!vendor/_required/*
 app/controllers/
 app/views/
 app/modules/
