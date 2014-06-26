@@ -5,7 +5,6 @@
 	define('SYSTEM_STARTED', TRUE);
 	define('PRODUCTION', FALSE);
 	
-	require_once('app/environment.php');
 	require_once('core/bootstrap.php');
 	
 	$uriParams=getURIParameters();

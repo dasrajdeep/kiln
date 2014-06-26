@@ -154,12 +154,8 @@ class Optimizer {
 		
 		foreach($ports as $port) {
 			
-			$content = '<?php
-				define("SYSTEM_STARTED", TRUE);
-			?>';
-			
-			$content .= file_get_contents(BASE_DIR.'system.inc');
-			$content .= file_get_contents(BASE_DIR.'index.inc');
+			$content = str_replace('$env_base_uri', "'".file_get_contents('.docroot')."'", file_get_contents(BASE_DIR.'system.inc'));
+			$content .= file_get_contents(BASE_DIR.'index.php.inc');
 			
 			$config = Registry::lookupPort($port);
 			$controller = $config[0];

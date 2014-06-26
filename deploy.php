@@ -11,8 +11,23 @@ if(php_sapi_name() !== 'cli') {
 
 define('SYSTEM_STARTED', TRUE);
 
-require_once('app/environment.php');
-require_once('core/bootstrap.php');
+require_once('core/errorhandler.php');
+	
+set_error_handler('global_error_handler');
+	
+require_once('core/globals.php');
+require_once('core/autoload.php');
+require_once('core/common.php');
+require_once('core/resolver.php');
+require_once('vendor/autoload.php');
+
+spl_autoload_register('load_system');
+spl_autoload_register('load_module');
+spl_autoload_register('load_controller');
+spl_autoload_register('load_redbean');
+spl_autoload_register('load_swiftmailer');
+
+register_shutdown_function('shutdown_system');
 
 /**
  * =====================================================

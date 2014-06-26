@@ -5,6 +5,10 @@
 	define('SYSTEM_STARTED', TRUE);
 	define('PRODUCTION', FALSE);
 	
+	if(!file_exists('.docroot')) {
+		file_put_contents('.docroot', substr(getcwd(), strlen($_SERVER['DOCUMENT_ROOT'])).'/');
+	}
+	
 	require_once('core/bootstrap.php');
 	
 	$uriParams=getURIParameters();

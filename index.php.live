@@ -1,8 +1,13 @@
 <?php
 
+define('SYSTEM_STARTED', TRUE);
 define('PRODUCTION', TRUE);
 
 session_start();
+
+if(!file_exists('.docroot')) {
+	file_put_contents('.docroot', substr(getcwd(), strlen($_SERVER['DOCUMENT_ROOT'])).'/');
+}
 
 $uriResource=explode('?',$_SERVER['REQUEST_URI']);
 $scriptResource=explode('?',$_SERVER['SCRIPT_NAME']);
@@ -11,6 +16,14 @@ $scriptName=explode('/',$scriptResource[0]);
 for($i=0;$i<sizeof($scriptName);$i++) { if($requestURI[$i]==$scriptName[$i]) unset($requestURI[$i]); }
 $requestURI=array_filter($requestURI);
 $requestParams=array_values($requestURI);
+
+if(count($requestParams)>0) {
+	$info=pathinfo($requestParams[count($requestParams)-1]);
+	if(isset($info['extension'])) {
+		$info['extension']=strtolower($info['extension']);
+		if(in_array($info['extension'],array('js','css','jpg','jpeg','png','gif','bmp','svg','eot','ttf','woff','otf'))) require_once('core/static.php');
+	}
+}
 
 $action = $requestParams[0];
 if(!$action) $action = 'default';

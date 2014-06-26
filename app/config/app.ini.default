@@ -17,3 +17,4 @@ smtp_password=""
 
 [APP]
 title=""
+document_root=""
