@@ -11,6 +11,11 @@ if(php_sapi_name() !== 'cli') {
 
 define('SYSTEM_STARTED', TRUE);
 
+if(!file_exists('.docroot') && !file_exists('index.php')) {
+	copy('index.php.dev', 'index.php');
+	die("Please run the app from a browser first.\n");
+}
+
 require_once('core/errorhandler.php');
 	
 set_error_handler('global_error_handler');
